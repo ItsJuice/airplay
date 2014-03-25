@@ -24,7 +24,7 @@ module Airplay
       timeout(5) do
         DNSSD.browse!(SEARCH) do |node|
           resolve(node)
-          break unless node.flags.more_coming?
+          # break unless node.flags.more_coming?
         end
       end
     rescue Timeout::Error => e
