@@ -63,6 +63,11 @@ module Airplay
       browser.devices
     end
 
+    def refresh
+      browser.clear
+      browse
+    end
+
     # Public: Access the configuration object
     #
     # Returns the Configuration object

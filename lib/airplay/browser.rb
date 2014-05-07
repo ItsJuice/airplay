@@ -32,6 +32,10 @@ module Airplay
       #raise NoDevicesFound
     end
 
+    def clear
+      @_devices = Devices.new
+    end
+
     # Public: Access to the node list
     #
     # Returns the Devices list object
