@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency("mime-types",           ">= 1.16")
   s.add_dependency("log4r",                "~> 1.1.10")
   s.add_dependency("cuba",                 "~> 3.1.0")
+  s.add_dependency("http",                 "0.5.0")
   s.add_dependency("micromachine",         "~> 1.0.4")
   s.add_dependency("celluloid",            "0.15.1")
   s.add_dependency("reel",                 "0.4.0")
