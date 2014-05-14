@@ -20,7 +20,10 @@ Gem::Specification.new do |s|
   s.add_dependency("cuba",                 "~> 3.1.0")
   s.add_dependency("micromachine",         "~> 1.0.4")
   s.add_dependency("celluloid",            ">= 0.15.0")
-  s.add_dependency("reel-rack",            "~> 0.2.0")
+
+  s.add_dependency("reel",            "= 0.4.0")
+  s.add_dependency("http",            "= 0.5.0")
+  s.add_dependency("reel-rack",            "~> 0.1.0")
   s.add_dependency("net-ptth",             "=  0.0.17")
   s.add_dependency("net-http-digest_auth", "~> 1.2.1")
 
