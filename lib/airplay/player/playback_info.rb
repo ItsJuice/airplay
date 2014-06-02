@@ -35,7 +35,13 @@ module Airplay
       end
 
       def stopped?
-        info.empty?
+        info.empty? || (paused? && remaining_duration < 1.0)
+      end
+
+      def remaining_duration
+        return 100.0 if duration.nil?
+        return 100.0 if position.nil?
+        duration - position
       end
 
       def playing?

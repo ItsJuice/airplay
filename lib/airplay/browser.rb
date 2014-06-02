@@ -23,7 +23,6 @@ module Airplay
     def browse
       timeout(5) do
         DNSSD.browse!(SEARCH) do |node|
-          puts "Got node #{node.inspect}"
           resolve(node)
           # break unless node.flags.more_coming?
         end
