@@ -99,9 +99,9 @@ module Airplay
     # Returns nothing
     #
     def progress(callback)
-      previously_playing? = @previous || playing?
+      previously_playing = @previous || playing?
       timers << every(1) do
-        callback.call(info) if playing? or previously_playing?
+        callback.call(info) if playing? or previously_playing
         @previous = playing?
       end
     end
