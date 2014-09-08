@@ -13,6 +13,10 @@ module Airplay
         !duration.to_f.zero?
       end
 
+      def password_required?
+        info['password_required']
+      end
+
       def position
         info["position"]
       end

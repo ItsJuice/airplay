@@ -99,8 +99,10 @@ module Airplay
     # Returns nothing
     #
     def progress(callback)
+      previously_playing? = @previous || playing?
       timers << every(1) do
-        callback.call(info) if playing?
+        callback.call(info) if playing? or previously_playing?
+        @previous = playing?
       end
     end
 
@@ -140,9 +142,15 @@ module Airplay
     # Returns a PlaybackInfo object with the playback information
     #
     def info
-      response = connection.get("/playback-info").response
-      plist = CFPropertyList::List.new(data: response.body)
-      hash = CFPropertyList.native_types(plist.value)
+      answer = connection.get("/playback-info")
+
+      if answer.kind_of?(Airplay::Connection::PasswordRequired)
+        hash = {password_required: true}
+      else
+        response = connection.get("/playback-info").response
+        plist = CFPropertyList::List.new(data: response.body)
+        hash = CFPropertyList.native_types(plist.value)
+      end
       PlaybackInfo.new(hash)
     end
 
