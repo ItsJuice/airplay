@@ -145,9 +145,11 @@ module Airplay
       answer = connection.get("/playback-info")
 
       if answer.kind_of?(Airplay::Connection::PasswordRequired)
-        hash = {'password_required' => true}
+        hash = {'password_error' => 'missing'}
+      elsif answer.kind_of?(Airplay::Connection::WrongPassword)
+        hash = {'password_error' => 'wrong'}
       else
-        response = connection.get("/playback-info").response
+        response = answer.response
         plist = CFPropertyList::List.new(data: response.body)
         hash = CFPropertyList.native_types(plist.value)
       end
