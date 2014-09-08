@@ -145,7 +145,7 @@ module Airplay
       answer = connection.get("/playback-info")
 
       if answer.kind_of?(Airplay::Connection::PasswordRequired)
-        hash = {password_required: true}
+        hash = {'password_required' => true}
       else
         response = connection.get("/playback-info").response
         plist = CFPropertyList::List.new(data: response.body)
