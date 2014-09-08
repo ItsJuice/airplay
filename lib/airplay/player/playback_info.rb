@@ -14,7 +14,11 @@ module Airplay
       end
 
       def password_required?
-        info['password_required']
+        info['password_error'] == 'missing'
+      end
+
+      def password_wrong?
+        info['password_error'] == 'wrong'
       end
 
       def position
