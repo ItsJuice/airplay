@@ -177,7 +177,7 @@ module Airplay
     # Returns nothing
     #
     def stop
-      connection.post("/stop")
+      connection.async.post("/stop")
     end
 
     # Public: Seeks to the specified position (seconds) in the video
