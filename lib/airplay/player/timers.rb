@@ -21,6 +21,7 @@ module Airplay
 
       def cancel
         @timers.each { |t| t.cancel }
+        @timers = []
       end
     end
   end
