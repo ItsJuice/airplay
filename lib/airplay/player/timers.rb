@@ -23,6 +23,10 @@ module Airplay
         @timers.each { |t| t.cancel }
         @timers = []
       end
+
+      def empty?
+        @timers.empty?
+      end
     end
   end
 end
