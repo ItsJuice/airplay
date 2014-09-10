@@ -262,7 +262,8 @@ module Airplay
         when current_info.played?  && playing?  then @machine.trigger(:played)
         when current_info.playing? && !playing? then @machine.trigger(:playing)
         when current_info.paused?  && playing?  then @machine.trigger(:paused)
-
+        end
+        
         previously_playing = @previous || playing?
         if playing? or previously_playing
           @callbacks.each do |callback|
