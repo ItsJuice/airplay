@@ -16,7 +16,6 @@ module Airplay
 
       def reset
         @timers.each { |t| t.reset }
-        @timers = []
       end
 
       def cancel
