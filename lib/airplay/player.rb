@@ -263,6 +263,7 @@ module Airplay
     #
     def check_for_playback_status
       signature = SecureRandom.uuid
+      return unless timers.empty?
       timers << every(1) do
         current_info = info
 
