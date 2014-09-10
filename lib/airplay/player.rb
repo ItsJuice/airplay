@@ -24,6 +24,7 @@ module Airplay
 
     def initialize(device)
       @device = device
+      @callbacks = []
     end
 
     # Public: Gets all the playlists
@@ -99,11 +100,11 @@ module Airplay
     # Returns nothing
     #
     def progress(callback)
-      previously_playing = @previous || playing?
-      timers << every(1) do
-        callback.call(info) if playing? or previously_playing
-        @previous = playing?
-      end
+      @callbacks << callback
+    end
+
+    def callbacks_empty?
+      @callbacks.empty?
     end
 
     # Public: Plays the next video in the playlist
@@ -254,12 +255,21 @@ module Airplay
     #
     def check_for_playback_status
       timers << every(1) do
+        current_info = info
+
         case true
-        when info.stopped? && playing?  then @machine.trigger(:stopped)
-        when info.played?  && playing?  then @machine.trigger(:played)
-        when info.playing? && !playing? then @machine.trigger(:playing)
-        when info.paused?  && playing?  then @machine.trigger(:paused)
+        when current_info.stopped? && playing?  then @machine.trigger(:stopped)
+        when current_info.played?  && playing?  then @machine.trigger(:played)
+        when current_info.playing? && !playing? then @machine.trigger(:playing)
+        when current_info.paused?  && playing?  then @machine.trigger(:paused)
+
+        previously_playing = @previous || playing?
+        if playing? or previously_playing
+          @callbacks.each do |callback|
+            callback.call(current_info)
+          end
         end
+        @previous = playing?
       end
     end
 
