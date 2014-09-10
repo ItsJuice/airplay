@@ -22,7 +22,7 @@ module Airplay
 
     attr_reader :device
 
-    trap_error :handle_error
+    trap_exit :handle_error
 
     def initialize(device)
       @device = device
