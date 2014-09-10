@@ -25,6 +25,7 @@ module Airplay
     trap_exit :handle_error
 
     def initialize(device)
+      @signature = SecureRandom.uuid
       @device = device
       @callbacks = []
     end
@@ -269,6 +270,7 @@ module Airplay
 
         # sign it
         current_info.info['signature'] = signature
+        current_info.info['player_sig'] = @signature
 
         case true
         when current_info.stopped? && playing?  then @machine.trigger(:stopped)
