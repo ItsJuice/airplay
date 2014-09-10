@@ -262,8 +262,12 @@ module Airplay
     # Returns nothing
     #
     def check_for_playback_status
+      signature = SecureRandom.uuid
       timers << every(1) do
         current_info = info
+
+        # sign it
+        current_info.info['signature'] = signature
 
         case true
         when current_info.stopped? && playing?  then @machine.trigger(:stopped)
