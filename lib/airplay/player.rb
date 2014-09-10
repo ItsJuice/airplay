@@ -22,6 +22,8 @@ module Airplay
 
     attr_reader :device
 
+    trap_error :handle_error
+
     def initialize(device)
       @device = device
       @callbacks = []
@@ -245,7 +247,13 @@ module Airplay
     # Returns the persistent connection to the device
     #
     def persistent
-      @_persistent ||= Airplay::Connection.new(@device, keep_alive: true)
+      @_persistent ||= open_persistent
+    end
+
+    def open_persistent
+      Airplay::Connection.new(@device, keep_alive: true).tap do |connection|
+        link connection
+      end
     end
 
     # Private: Starts checking for playback status ever 1 second
@@ -263,7 +271,7 @@ module Airplay
         when current_info.playing? && !playing? then @machine.trigger(:playing)
         when current_info.paused?  && playing?  then @machine.trigger(:paused)
         end
-        
+
         previously_playing = @previous || playing?
         if playing? or previously_playing
           @callbacks.each do |callback|
@@ -271,6 +279,16 @@ module Airplay
           end
         end
         @previous = playing?
+      end
+    end
+
+    def handle_error actor, event
+      if actor.kind_of?(Airplay::Connection)
+        puts "Exception = #{ event.inspect }"
+        puts "Handling reconnection!"
+        # reopen connection
+        @_persistent = nil
+        persistent
       end
     end
 
