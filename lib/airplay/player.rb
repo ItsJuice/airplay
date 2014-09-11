@@ -253,7 +253,7 @@ module Airplay
 
     def open_persistent
       Airplay::Connection.new(@device, keep_alive: true).tap do |connection|
-        link connection
+        link connection.socket
       end
     end
 
