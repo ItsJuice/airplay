@@ -29,7 +29,8 @@ module Airplay
       @_persistent ||= Airplay::Connection::Persistent.new(address, @options)
 
       # link to the underlying socket for resiliance.
-      link @_persistent.socket
+      link @_persistent.base_socket
+      @_persistent
     end
 
     # Public: Closes the opened connection
