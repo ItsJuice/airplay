@@ -11,9 +11,12 @@ module Airplay
     class Persistent
       attr_reader :session, :mac_address
 
+      trap_exit :connection_died
+
       def initialize(address, options = {})
         @logger = Airplay::Logger.new("airplay::connection::persistent")
         @socket = Net::PTTH.new(address, options)
+        link @socket
         @socket.set_debug_output = @logger
 
         @session = SecureRandom.uuid
@@ -37,6 +40,11 @@ module Airplay
       #
       def request(request)
         @socket.request(request)
+      end
+
+      def connection_died actor, exception
+        puts "Actor #{ actor.inspect } experienced exception #{ exception.inspect }"
+
       end
     end
   end
