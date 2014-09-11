@@ -28,10 +28,6 @@ module Airplay
     def persistent
       address = @options[:address] || "http://#{@device.address}"
       @_persistent ||= Airplay::Connection::Persistent.new(address, @options)
-
-      # link to the underlying socket for resiliance.
-      link @_persistent.base_socket
-      @_persistent
     end
 
     # Public: Closes the opened connection
@@ -125,6 +121,8 @@ module Airplay
     def send_request(request, headers)
       request.initialize_http_header(default_headers.merge(headers))
 
+      link persistent
+
       if @device.password?
         authentication = Airplay::Connection::Authentication.new(@device, persistent)
         request = authentication.sign(request)
@@ -132,6 +130,8 @@ module Airplay
 
       @logger.info("Sending request to #{@device.address}")
       response = persistent.request(request)
+
+      unlink persistent
 
       verify_response(Airplay::Connection::Response.new(persistent, response))
     end
