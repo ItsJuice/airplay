@@ -18,6 +18,8 @@ module Airplay
     extend Forwardable
     include Celluloid
 
+    class PlayingInterrupted < Exception; end
+
     def_delegators :@machine, :state, :on
 
     attr_reader :device
@@ -239,7 +241,9 @@ module Airplay
     # Returns the current connection to the device
     #
     def connection
-      @_connection ||= Airplay::Connection.new(@device)
+      @_connection ||= Airplay::Connection.new(@device).tap do |connection|
+        link connection
+      end
     end
 
     # Private: The persistent connection
@@ -286,10 +290,12 @@ module Airplay
     def handle_error actor, event
       if actor.kind_of?(Airplay::Connection)
         puts "Exception = #{ event.inspect }"
-        puts "Handling reconnection!"
-        # reopen connection
-        @_persistent = nil
-        persistent
+        raise PlayingInterrupted
+        ## throw error on up the line
+        #puts "Handling reconnection!"
+        ## reopen connection
+        #@_persistent = nil
+        #persistent
       end
     end
 

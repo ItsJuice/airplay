@@ -9,6 +9,7 @@ module Airplay
     Response = Struct.new(:connection, :response)
     PasswordRequired = Class.new(StandardError)
     WrongPassword = Class.new(StandardError)
+    PipeBroke = Class.new(StandardError)
 
     include Celluloid
 
@@ -152,6 +153,7 @@ module Airplay
 
     def socket_died actor, exception
       puts "Actor #{ actor.inspect } experienced exception #{ exception.inspect }"
+      raise PipeBroke
     end
   end
 end
