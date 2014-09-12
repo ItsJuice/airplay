@@ -43,7 +43,7 @@ module Airplay
       end
 
       def stopped?
-        info.empty? || (paused? && remaining_duration < 1.0)
+        info.empty?
       end
 
       def remaining_duration
@@ -62,7 +62,7 @@ module Airplay
 
       def played?
         # This is weird. I know. Bear with me.
-        info.keys.size == 2
+        info.keys.size == 2 || (paused? && remaining_duration < 1.0)
       end
     end
   end
