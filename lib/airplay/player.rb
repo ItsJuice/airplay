@@ -147,9 +147,16 @@ module Airplay
     # Returns a PlaybackInfo object with the playback information
     #
     def info
-      answer = connection.get("/playback-info")
+      answer = nil
+      retries = 10
+      while answer.nil? and retries > 0
+        answer = connection.get("/playback-info")
+        retries -= 1
+      end
 
-      if answer.kind_of?(Airplay::Connection::PasswordRequired)
+      if answer.nil?
+        hash = {'error' => 'socket error'}
+      elsif answer.kind_of?(Airplay::Connection::PasswordRequired)
         hash = {'password_error' => 'missing'}
       elsif answer.kind_of?(Airplay::Connection::WrongPassword)
         hash = {'password_error' => 'wrong'}
