@@ -225,6 +225,12 @@ module Airplay
       persistent.cleanup
       persistent.terminate
       @_persistent = nil
+
+      unless @_connection.nil?
+        connection.close
+        connection.cleanup
+        connection.terminate
+      end
     end
 
     private
