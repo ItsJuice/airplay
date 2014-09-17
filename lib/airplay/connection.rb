@@ -21,6 +21,11 @@ module Airplay
       @logger = Airplay::Logger.new("airplay::connection")
     end
 
+    # Public: Pass along the cleanup command to the persistent connection
+    def cleanup
+      @_persistent.cleanup
+    end
+
     # Public: Establishes a persistent connection to the device
     #
     # Returns the persistent connection
