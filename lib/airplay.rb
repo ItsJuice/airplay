@@ -64,7 +64,6 @@ module Airplay
     end
 
     def refresh
-      browser.clear
       browse
     end
 

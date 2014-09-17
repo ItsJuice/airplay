@@ -21,6 +21,7 @@ module Airplay
     # Returns nothing or raises NoDevicesFound if there are no devices
     #
     def browse
+      @_new_devices = nil
       timeout(5) do
         DNSSD.browse!(SEARCH) do |node|
           resolve(node)
@@ -28,11 +29,9 @@ module Airplay
         end
       end
     rescue Timeout::Error => e
+      @_devices = @_new_devices
+      @_new_devices = nil
       #raise NoDevicesFound
-    end
-
-    def clear
-      @_devices = Devices.new
     end
 
     # Public: Access to the node list
@@ -41,6 +40,10 @@ module Airplay
     #
     def devices
       @_devices ||= Devices.new
+    end
+
+    def new_devices
+      @_new_devices ||= Devices.new
     end
 
     private
@@ -59,7 +62,7 @@ module Airplay
       device = create_device(node.name, address, type)
       device.text_records = resolved.text_record
 
-      devices << device
+      new_devices << device
 
       resolved.flags.more_coming?
     end
