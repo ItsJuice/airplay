@@ -221,9 +221,11 @@ module Airplay
     #
     def cleanup
       timers.cancel
-      persistent.close
-      persistent.cleanup
-      persistent.terminate
+      unless @_persistent.nil?
+        persistent.close
+        persistent.cleanup
+        persistent.terminate
+      end
       @_persistent = nil
 
       unless @_connection.nil?
