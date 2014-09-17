@@ -24,7 +24,7 @@ module Airplay
 
     attr_reader :device
 
-    trap_exit :handle_error
+    #trap_exit :handle_error
 
     def initialize(device)
       @device = device
@@ -223,15 +223,14 @@ module Airplay
       timers.cancel
       unless @_persistent.nil?
         persistent.close
-        persistent.cleanup
         persistent.terminate
+        @_persistent = nil
       end
-      @_persistent = nil
 
       unless @_connection.nil?
         connection.close
-        connection.cleanup
         connection.terminate
+        @_connection = nil
       end
     end
 
@@ -260,7 +259,7 @@ module Airplay
     #
     def connection
       @_connection ||= Airplay::Connection.new(@device).tap do |connection|
-        link connection
+        # link connection
       end
     end
 
