@@ -19,7 +19,7 @@ module Airplay
       end
 
       def cancel
-        @timers.each { |t| t.cancel }
+        @timers.each { |t| t.cancel, t.terminate }
         @timers = []
       end
 
