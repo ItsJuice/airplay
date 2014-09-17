@@ -222,6 +222,7 @@ module Airplay
     def cleanup
       timers.cancel
       persistent.close
+      persistent.cleanup
       persistent.terminate
       @_persistent = nil
     end

@@ -22,6 +22,10 @@ module Airplay
         @socket.socket
       end
 
+      def cleanup
+        @socket.terminate
+      end
+
       def close
         socket.close
       end
