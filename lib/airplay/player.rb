@@ -304,7 +304,7 @@ module Airplay
     end
 
     def handle_error actor, event
-      puts "Exception = #{ event.inspect }"
+      puts "Exception = #{ actor.inspect } / #{ event.inspect }"
       if actor.kind_of?(Airplay::Connection)
         raise PlayingInterrupted
         ## throw error on up the line
