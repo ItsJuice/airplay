@@ -30,6 +30,10 @@ module Airplay
       player.playlists
     end
 
+    def clear_player
+      @_player = nil
+    end
+
     # Public: Gets the player object
     #
     # Returns a Player object
