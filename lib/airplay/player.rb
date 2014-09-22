@@ -294,13 +294,13 @@ module Airplay
         when current_info.paused?  && playing?  then @machine.trigger(:paused)
         end
 
-        previously_playing = @previous || playing?
-        if playing? or previously_playing
+        #previously_playing = @previous || playing?
+        #if playing? or previously_playing
           @callbacks.each do |callback|
             callback.call(current_info)
           end
-        end
-        @previous = playing?
+        #end
+        #@previous = playing?
       end
     end
 
