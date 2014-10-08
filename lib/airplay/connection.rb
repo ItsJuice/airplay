@@ -13,8 +13,6 @@ module Airplay
 
     include Celluloid
 
-    trap_exit :socket_died
-
     def initialize(device, options = {})
       @device = device
       @options = options
@@ -34,7 +32,13 @@ module Airplay
     #
     def persistent
       address = @options[:address] || "http://#{@device.address}"
-      @_persistent ||= Airplay::Connection::Persistent.new(address, @options)
+      @_persistent ||= open_persistent
+    end
+
+    def open_persistent
+      Airplay::Connection::Persistent.new(address, @options).tap do |conn|
+        link conn.socket
+      end
     end
 
     # Public: Closes the opened connection
@@ -152,11 +156,6 @@ module Airplay
       end
 
       response
-    end
-
-    def socket_died actor, exception
-      puts "Actor #{ actor.inspect } experienced exception #{ exception.inspect }"
-      raise PipeBroke
     end
   end
 end
