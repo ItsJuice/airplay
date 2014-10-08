@@ -9,6 +9,10 @@ module Airplay
         info["duration"]
       end
 
+      def empty?
+        info.has_key?('error') and info['error'] == 'empty response'
+      end
+
       def has_duration?
         !duration.to_f.zero?
       end

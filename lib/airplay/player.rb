@@ -162,8 +162,13 @@ module Airplay
         hash = {'password_error' => 'wrong'}
       else
         response = answer.response
-        plist = CFPropertyList::List.new(data: response.body)
-        hash = CFPropertyList.native_types(plist.value)
+        if response.body.nil? or response.body.empty?
+          hash = {'error' => 'empty response'}
+
+        else
+          plist = CFPropertyList::List.new(data: response.body)
+          hash = CFPropertyList.native_types(plist.value)
+        end
       end
       PlaybackInfo.new(hash)
     end
