@@ -162,6 +162,8 @@ module Airplay
         hash = {'password_error' => 'wrong'}
       else
         response = answer.response
+        puts "Response = #{ response.inspect }"
+        puts "Response Body = #{ response.body.inspect }"
         if response.body.nil? or response.body.empty?
           hash = {'error' => 'empty response'}
 
