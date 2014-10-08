@@ -162,11 +162,8 @@ module Airplay
         hash = {'password_error' => 'wrong'}
       else
         response = answer.response
-        puts "Response = #{ response.inspect }"
-        puts "Response Body = #{ response.body.inspect }"
         content_length = response.body.match(/Content-Length:\s+(\d+)/)[1].to_i
-        puts "Content Length = (#{ content_length.inspect })"
-        if response.body.nil? or response.body.empty?
+        if content_length == 0
           hash = {'error' => 'empty response'}
 
         else
