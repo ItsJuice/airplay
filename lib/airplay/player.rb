@@ -164,6 +164,8 @@ module Airplay
         response = answer.response
         puts "Response = #{ response.inspect }"
         puts "Response Body = #{ response.body.inspect }"
+        content_length = response.body.match(/Content-Length:\s+(\d+)/)[1].to_i
+        puts "Content Length = (#{ content_length.inspect })"
         if response.body.nil? or response.body.empty?
           hash = {'error' => 'empty response'}
 
