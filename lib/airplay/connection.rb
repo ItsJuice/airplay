@@ -37,7 +37,7 @@ module Airplay
     def open_persistent
       address = @options[:address] || "http://#{@device.address}"
       Airplay::Connection::Persistent.new(address, @options).tap do |conn|
-        link conn.socket
+        link conn.base_socket
       end
     end
 
