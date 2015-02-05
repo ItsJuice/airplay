@@ -22,7 +22,7 @@ module Airplay
     #
     def browse
       @_new_devices = nil
-      timeout(5) do
+      timeout(10) do
         DNSSD.browse!(SEARCH) do |node|
           resolve(node)
           # break unless node.flags.more_coming?
