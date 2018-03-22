@@ -128,10 +128,14 @@ module Airplay
     # Returns nothing
     #
     def resolve(node)
-      resolver = DNSSD::Service.new
-      resolver.resolve(node) do |resolved|
-        break unless node_resolver(node, resolved)
+      begin
+        resolver = DNSSD::Service.new
+        resolver.resolve(node) do |resolved|
+          break unless node_resolver(node, resolved)
+        end
       end
+    rescue ArgumentError
+      # ignore error
     end
   end
 end
