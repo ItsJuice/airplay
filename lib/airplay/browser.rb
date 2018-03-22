@@ -135,7 +135,9 @@ module Airplay
         end
       end
     rescue ArgumentError
-      # ignore error
+      # Ignore error
+    rescue DNSSD::UnknownError
+      # Ignore this too
     end
   end
 end
